@@ -5,6 +5,20 @@ export function useClock(){
   const [star,setStar] = useState(false)
   const [pause, setPause] = useState(false)
   const [reset, setReset] = useState(false)
+  const [focus, setFocus] = useState(true)
+  const [breakTime, setBreakTime] = useState(false)
+
+  const handleFocus = () => {
+    setFocus(true)
+    setBreakTime(false)
+  }
+  const handleBreak = () => {
+    setFocus(false)
+    setBreakTime(true)
+    setTiempo(300)
+    setReset(true)
+
+  }
 
   const handleStart = () => {
     setStar(true)
@@ -19,6 +33,14 @@ export function useClock(){
     setTiempo(1500)
     setReset(true)
   }
+  
+
+  useEffect(()=>{
+    if(breakTime){
+      setTiempo(300)
+    }
+  },[breakTime,reset])
+
 
   useEffect(()=>{
     let intervalo:number
@@ -43,9 +65,15 @@ export function useClock(){
     star,
     pause,
     reset,
+    focus,
+    breakTime,
     handleStart,
+    setTiempo,
     handlePause,
     handleReset,
-    formatTime
+    formatTime,
+    handleFocus,
+    handleBreak,
+
   }
 }
